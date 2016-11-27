@@ -13,8 +13,6 @@ const executableSchema = makeExecutableSchema({
   resolvers: resolvers
 });
 
-const PORT = process.env.PORT || 4444;
-
 const app = express();
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({
@@ -25,4 +23,6 @@ app.use('/graphiql', graphiqlExpress({
   endpointURL: '/graphql'
 }));
 
+const PORT = process.env.PORT || 4444;
 app.listen(PORT);
+console.log(`API started on port ${PORT}`);
