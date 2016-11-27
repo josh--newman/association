@@ -1,13 +1,13 @@
 {
-  "name": "association",
+  "name": "association-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Josh Newman",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^0.3.3",
