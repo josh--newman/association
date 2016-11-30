@@ -4,15 +4,28 @@ const players = [
   {id: 3, firstName: 'Russell', lastName: 'Westbrook'}
 ];
 
+const teams = [
+  {id: 1, name: 'Chicago Bulls'},
+  {id: 2, name: 'Golden State Warriors'}
+];
+
 const schema = `
 type Player {
   id: ID!
   firstName: String!
   lastName: String!
+  teams: [Team!]
+}
+
+type Team {
+  id: ID!
+  name: String!
+  players: [Player!]
 }
 
 type Query {
   players: [Player]
+  teams: [Team]
 }
 
 type Mutation {
@@ -20,6 +33,10 @@ type Mutation {
     firstName: String!
     lastName: String!
   ): Player
+
+  createTeam(
+    name: String!
+  ): Team
 }
 
 schema {
@@ -32,6 +49,9 @@ const resolveFunctions = {
   Query: {
     players() {
       return players;
+    },
+    teams() {
+      return teams;
     }
   },
 
@@ -44,6 +64,15 @@ const resolveFunctions = {
       };
       players.push(newPlayer);
       return newPlayer;
+    },
+
+    createTeam(_, { name }) {
+      const team = {
+        id: Math.ceil(Math.random() * 100),
+        name
+      };
+      teams.push(team);
+      return team;
     }
   }
 }
