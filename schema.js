@@ -1,12 +1,12 @@
-const players = [
-  {id: 1, firstName: 'Michael', lastName: 'Jordan'},
-  {id: 2, firstName: 'Kobe', lastName: 'Bryant'},
-  {id: 3, firstName: 'Russell', lastName: 'Westbrook'}
+const playersData = [
+  {id: 1, firstName: 'Michael', lastName: 'Jordan', teams: [1]},
+  {id: 2, firstName: 'Kobe', lastName: 'Bryant', teams: []},
+  {id: 3, firstName: 'Kevin', lastName: 'Durant', teams: [2]}
 ];
 
-const teams = [
-  {id: 1, name: 'Chicago Bulls'},
-  {id: 2, name: 'Golden State Warriors'}
+const teamsData = [
+  {id: 1, name: 'Chicago Bulls', players: [1]},
+  {id: 2, name: 'Golden State Warriors', players: [3]}
 ];
 
 const schema = `
@@ -48,10 +48,10 @@ schema {
 const resolveFunctions = {
   Query: {
     players() {
-      return players;
+      return playersData;
     },
     teams() {
-      return teams;
+      return teamsData;
     }
   },
 
@@ -62,7 +62,7 @@ const resolveFunctions = {
         firstName,
         lastName
       };
-      players.push(newPlayer);
+      playersData.push(newPlayer);
       return newPlayer;
     },
 
@@ -71,8 +71,24 @@ const resolveFunctions = {
         id: Math.ceil(Math.random() * 100),
         name
       };
-      teams.push(team);
+      teamsData.push(team);
       return team;
+    }
+  },
+
+  Player: {
+    teams(player) {
+      return teamsData.filter(team => (
+        team.players.includes(player.id)
+      ));
+    }
+  },
+
+  Team: {
+    players(team) {
+      return playersData.filter(player => (
+        player.teams.includes(team.id)
+      ))
     }
   }
 }
